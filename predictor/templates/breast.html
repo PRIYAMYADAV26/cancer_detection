@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breast Cancer Prediction</title>
+    <style>
+        /* Body Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #ffff66, #333);
+            margin: 0;
+            padding: 0;
+            color: #ffff66;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #222;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffff66;
+            position: relative;
+        }
+
+        /* Background Image Styling */
+        .container::before {
+            content: '';
+            background-image: url('core/predictor/static/image/priti.avif');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            border-radius: 10px;
+        }
+
+        /* Heading Styling */
+        h1 {
+            text-align: center;
+            color: #ffff66;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #ffcc00;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #ffff66;
+        }
+
+        input {
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ffff66;
+            border-radius: 5px;
+            font-size: 15px;
+            background: #333;
+            color: #ffff66;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input::placeholder {
+            color: #cccc99;
+        }
+
+        input:focus {
+            border-color: #ffcc00;
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+            outline: none;
+        }
+
+        /* Button Styling */
+        button {
+            padding: 12px;
+            background: linear-gradient(to right, #ffff66, #ffcc00);
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #ffcc00, #ff9900);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.5);
+        }
+
+        /* Result StylinNo code was selected, so I will provide a code snippet that can be inserted to improve the existing code. This snippet adds JavaScript functionality to validate the form inputs and display a success message after submission.
+
+```javascript
+<script>
+    const form = document.querySelector('form');
+    const inputs = document.querySelectorAll('input');
+    const resultDiv = document.querySelector('.result');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let isValid = true;
+
+        inputs.forEach((input) => {
+            if (input.value === '') {
+                input.style.border = '1px solid red';
+                isValid = false;
+            } else {
+                input.style.border = '1px solid #ffff66';
+            }
+        });
+
+        if (isValid) {
+            // Submit the form data to the server
+            const formData = new FormData(form);
+            fetch('/predict', {
+                method: 'POST',
+                body: formData,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                resultDiv.innerHTML = `<strong>Prediction Result:</strong> <span>${data.result}</span>`;
+            })
+            .catch((error) => console.error(error));
+        }
+    });
+</script>
+```g */
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #000;
+            border: 2px dashed #ffff66;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 22px;
+            color: #ffff66;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        .result span {
+            color: #333;
+            background: #ffff66;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 26px;
+            text-shadow: 0 0 5px #ffcc00;
+        }
+
+        /* Result Glow Animation */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 10px #ffff66;
+            }
+            100% {
+                box-shadow: 0 0 20px #ffcc00;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            input, button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Breast Cancer Prediction</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="mean_radius">Mean Radius(0-30):</label>
+            <input type="text" id="mean_radius" name="mean_radius" placeholder="Enter mean radius" required><br>
+    
+            <label for="mean_texture">Mean Texture(0-50):</label>
+            <input type="text" id="mean_texture" name="mean_texture" placeholder="Enter mean texture" required><br>
+    
+            <label for="mean_perimeter">Mean Perimeter(0-200):</label>
+            <input type="text" id="mean_perimeter" name="mean_perimeter" placeholder="Enter mean perimeter" required><br>
+    
+            <label for="mean_area">Mean Area(0-2000):</label>
+            <input type="text" id="mean_area" name="mean_area" placeholder="Enter mean area" required><br>
+    
+            <label for="mean_concavity">Mean Concavity(0-1):</label>
+            <input type="text" id="mean_concavity" name="mean_concavity" placeholder="Enter mean concavity" required><br>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <strong>Prediction Result:</strong> <span>{{ result }}</span>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

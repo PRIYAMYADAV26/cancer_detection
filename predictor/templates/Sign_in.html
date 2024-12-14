@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffd700, #ffa500); /* Yellow and orange gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333; /* Darker text color for contrast */
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9); /* Light yellowish-white background */
+            padding: 3rem; /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px; /* Increased width */
+        }
+
+        .signin-form h1 {
+            text-align: center;
+            margin-bottom: 1.5rem; /* Adjusted spacing */
+            color: #ffa500; /* Orange color for the title */
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem; /* Increased spacing between form elements */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555; /* Slightly darker gray for labels */
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.7rem; /* Increased padding */
+            border: 2px solid #ffd700; /* Yellow border */
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #ffa500; /* Orange border on focus */
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.9rem; /* Increased button size */
+            background: #ffd700; /* Yellow background */
+            border: none;
+            border-radius: 4px;
+            color: #333; /* Dark text for contrast */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #ffa500; /* Darker orange on hover */
+        }
+
+        .error-message {
+            color: #ff5e57;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Open Sans", sans-serif;
+            letter-spacing: 0.0725em;
+            box-sizing: border-box;
+          }
+      
+          .navbar {
+            display: flex;
+          justify-content: space-between;
+          align-items: center;
+          justify-items: stretch;
+          padding: 10px 90px;
+          transition: all 1s;
+          position: fixed;
+          top: 0;
+          width: 100%;
+          background-color: white; 
+          z-index: 999;#ddd; /* Optional: Adds a bottom border for better separation */
+          }
+      
+          .logo span {
+            color: #e0c233;
+            font-weight: 900;
+          }
+      
+          .logo a {
+            color: #000; /* Adjusted to black for contrast */
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 24px;
+          }
+    {% comment %}   
+          nav ul {
+            list-style: none;
+          } {% endcomment %}
+      
+          nav ul li {
+            display: inline;
+          }
+      
+          nav ul li a {
+            margin-left: 60px;
+            color:black;
+            text-decoration: none;
+            font-size: 14px;
+          }
+      
+          nav ul li a:hover {
+            border-bottom: 3px #e0c233 solid;
+            transition: all 0.7s;
+          }
+      
+          .getstarted {
+            margin-top: 25px;
+            background-color: transperant;
+            border: 1px black solid;
+            border-radius: 16px;
+            color:black;
+            padding: 10px 22px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 1s;
+          }
+      
+          .getstarted:hover {
+            color: #e0c233;
+          transition: all 1s;
+          transform: scale(1.4);
+          border: none;
+          }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.querySelector('.signin-form');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.createElement('div');
+            errorMessage.classList.add('error-message');
+
+            form.addEventListener('submit', (e) => {
+                let isValid = true;
+                let messages = [];
+
+                // Validate username
+                if (usernameInput.value.trim().toLowerCase() === "abc") {
+                    isValid = false;
+                    messages.push("Username cannot be 'abc'.");
+                }
+
+                // Validate password (must include at least one special character)
+                const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+                if (!specialCharRegex.test(passwordInput.value)) {
+                    isValid = false;
+                    messages.push("Password must include at least one special character.");
+                }
+
+                if (!isValid) {
+                    e.preventDefault(); // Prevent form submission
+                    errorMessage.innerHTML = messages.join("<br>");
+                    form.prepend(errorMessage);
+                } else {
+                    errorMessage.remove(); // Remove error message on valid form
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <p class="logo"><a href="{% url 'base' %}">Cancer<span>Prediction</span></a></p>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#quote">Quote</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#prediction">Prediction</a></li>
+                <li><a href="{% url 'login' %}" class="getstarted">Login</a></li>
+                <li><a href="{% url 'Sign_in' %}" class="getstarted">Sign In</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <form method="POST" class="signin-form">
+            <h1>Sign Up</h1>
+            {% csrf_token %}
+            {% if message %}
+                <div class="error-message">{{ message }}</div>
+            {% endif %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+    </div>
+</body>
+</html>
